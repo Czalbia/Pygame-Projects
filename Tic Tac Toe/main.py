@@ -1,8 +1,16 @@
 import os
+import random
 
 board=[' ',' ',' ',' ',' ',' ',' ',' ',' ']
-person='O'
-ai='X'
+
+if random.randint(1,2)==1:
+      person = 'X'
+      ai = 'O'
+else: 
+  ai='X'
+  person = 'O'
+
+
 
 def showBoard(place):
     print(f'''
@@ -38,11 +46,18 @@ def someoneWin():
   return None
 
 def minimax(depth,isMaximizing):
-  scores ={
-    'X': +1,
-    'O':-1,
-    't': 0
-  }
+  if person == 'O':
+    scores ={
+      'X': +1,
+      'O':-1,
+      't': 0
+    }
+  if person =='X':
+        scores ={
+      'X': -1,
+      'O':+1,
+      't': 0
+    }
   result= someoneWin()
   if result != None:
     return scores[result]
@@ -85,10 +100,20 @@ def bestMove():
   board[move]=ai
 
 def main():
-
-  print(f'''
-        You'r Mark: O
-        You'r Second!
+  if person == 'X':
+        print(f'''
+        Your Mark: {person}
+        You are going First!
+        Please choose where you want to set your mark:
+    _________
+    | 0|1|2 |
+    | 3|4|5 |
+    | 6|7|8 |
+    |-------|
+        ''')
+  else: print(f'''
+        Your Mark: {person}
+        You are going Second!
         Please choose where you want to set your mark:
     _________
     | 0|1|2 |
@@ -107,15 +132,26 @@ def main():
     elif someoneWin()=='t':
         print("Tie!\n")
         break
+
+    if person == 'X':
+      if iter %2!=0:
+        place = int(input("Your move:"))
+        if board[place] ==' ':
+          board[place] = person
+        else: continue   
+      else:
+        bestMove()
+
+    if person == 'O':
+      if iter %2==0:
+        place = int(input("Your move:"))
+        if board[place] ==' ':
+          board[place] = person
+        else: continue 
+      else:
+        bestMove()
     
-    if iter %2==0:
-      place = int(input("Your move:"))
-      if board[place] ==' ':
-        board[place] = person
-      else: continue 
-    else: bestMove()
-    
-    os.system("cls")
+    os.system("clear")
     print(board)
     print('''
   _________
